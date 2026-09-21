@@ -5,8 +5,11 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_NEWSAPI_KEY: ${VITE_NEWSAPI_KEY:-}
+        VITE_NEWSAPI_ENABLED: ${VITE_NEWSAPI_ENABLED:-}
         VITE_GUARDIAN_API_KEY: ${VITE_GUARDIAN_API_KEY:-}
         VITE_NYTIMES_API_KEY: ${VITE_NYTIMES_API_KEY:-}
+    environment:
+      NEWSAPI_KEY: ${NEWSAPI_KEY:-${VITE_NEWSAPI_KEY:-}}
     ports:
       - '8080:80'
     restart: unless-stopped

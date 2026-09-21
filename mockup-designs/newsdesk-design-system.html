@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NewsDesk — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper-50: #fbf9f4;
+    --paper-100: #f7f4ee;
+    --paper-200: #ede6d8;
+    --paper-300: #e4ddcf;
+    --paper-400: #dcd4c2;
+    --paper-500: #c7bea9;
+    --ink-100: #8a806e;
+    --ink-300: #5c5646;
+    --ink-500: #4a4437;
+    --ink-900: #1b1812;
+    --clay-400: #d97a63;
+    --clay-500: #c1503a;
+    --clay-600: #a23f2c;
+    --white: #ffffff;
+    --dark-bg: #16140f;
+    --dark-surface: #1e1b15;
+    --dark-surface-muted: #29251d;
+    --dark-border: #332e24;
+    --dark-text: #f3efe6;
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+    --font-body: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 999px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper-100);
+    color: var(--ink-900);
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 var(--space-6) 96px;
+  }
+
+  a { color: inherit; }
+
+  /* ---- Cover ---- */
+  .cover {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-100);
+    padding: 64px var(--space-6) 56px;
+    border-bottom: 1px solid var(--paper-300);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .cover-text {
+    max-width: 460px;
+  }
+  .cover-name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(56px, 9vw, 92px);
+    line-height: 0.95;
+    color: var(--ink-900);
+  }
+  .cover-tagline {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: var(--ink-100);
+    font-weight: 500;
+  }
+  .cover-blocks {
+    position: relative;
+    width: 420px;
+    max-width: 44vw;
+    height: 220px;
+    flex-shrink: 0;
+  }
+  .cover-blocks .rect { position: absolute; border-radius: var(--radius-sm); }
+  .cover-blocks .rule { position: absolute; left: 0; right: 0; height: 1px; background: var(--ink-900); opacity: 0.16; }
+  .blk-a { background: var(--clay-500); left: 0; top: 12px; width: 46%; height: 78%; }
+  .blk-b { background: var(--ink-900); right: 0; top: 12px; width: 46%; height: 42%; }
+  .blk-c { background: var(--paper-400); right: 25%; bottom: 8px; width: 21%; height: 32%; }
+  .blk-d { background: var(--dark-bg); right: 0; bottom: 8px; width: 21%; height: 32%; }
+  .r1 { top: 32%; } .r2 { top: 56%; } .r3 { top: 80%; }
+
+  /* ---- Sections ---- */
+  section { padding-top: 64px; }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 26px;
+    margin: 0 0 8px;
+  }
+  .section-intro {
+    max-width: 640px;
+    color: var(--ink-300);
+    margin: 0 0 32px;
+    font-size: 14.5px;
+  }
+
+  /* ---- Voice / foundations prose ---- */
+  .prose p { max-width: 720px; color: var(--ink-300); font-size: 15px; }
+  .prose strong { color: var(--ink-900); }
+
+  /* ---- Color grid ---- */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: var(--space-4);
+  }
+  .swatch {
+    border: 1px solid var(--paper-300);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    overflow: hidden;
+  }
+  .swatch-fill { height: 74px; }
+  .swatch-body { padding: var(--space-3) var(--space-4); }
+  .swatch-name { font-weight: 600; font-size: 13px; margin: 0; }
+  .swatch-hex { font-size: 12px; color: var(--ink-100); margin: 2px 0 8px; font-variant-numeric: tabular-nums; }
+  .swatch-usage { font-size: 12px; color: var(--ink-300); margin: 0; line-height: 1.45; }
+
+  /* ---- Type samples ---- */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--paper-300);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    width: 190px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--ink-100);
+  }
+  .type-meta b { display: block; color: var(--ink-900); font-size: 13px; margin-bottom: 2px; }
+  .type-sample { color: var(--ink-900); }
+  .t-wordmark-bold { font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+  .t-wordmark-italic { font-family: var(--font-display); font-weight: 500; font-style: italic; font-size: 20px; color: var(--clay-500); }
+  .t-heading-lg { font-family: var(--font-display); font-weight: 600; font-size: 20px; }
+  .t-heading-md { font-family: var(--font-display); font-weight: 600; font-size: 18px; }
+  .t-body-md { font-family: var(--font-body); font-weight: 500; font-size: 14px; }
+  .t-body-sm { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--ink-100); }
+  .t-button-label { font-family: var(--font-body); font-weight: 600; font-size: 12px; }
+  .t-label-upper { font-family: var(--font-body); font-weight: 700; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-100); }
+
+  /* ---- Spacing / radius scales ---- */
+  .scale-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 640px; }
+  .scale-row { display: flex; align-items: center; gap: var(--space-4); }
+  .scale-label { width: 90px; flex-shrink: 0; font-size: 12.5px; font-weight: 600; }
+  .scale-value { width: 60px; flex-shrink: 0; font-size: 12px; color: var(--ink-100); }
+  .scale-bar { height: 14px; background: var(--clay-500); border-radius: 3px; }
+  .scale-usage { font-size: 12px; color: var(--ink-300); }
+  .radius-box { width: 48px; height: 48px; background: var(--paper-200); border: 1px solid var(--paper-400); flex-shrink: 0; }
+
+  /* ---- Components ---- */
+  .comp-block { margin-bottom: 48px; }
+  .comp-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 0 0 4px; }
+  .comp-desc { font-size: 13.5px; color: var(--ink-300); max-width: 640px; margin: 0 0 20px; }
+  .comp-stage {
+    background: var(--paper-50);
+    border: 1px solid var(--paper-300);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  figcaption { font-size: 11px; color: var(--ink-100); text-align: center; max-width: 160px; }
+
+  .btn { border: 1px solid var(--ink-900); background: var(--ink-900); color: var(--paper-100); cursor: default; white-space: nowrap; }
+  .btn.primary { border-radius: var(--radius-pill); padding: var(--space-3) var(--space-4); }
+  .btn.primary.hover { opacity: 0.85; }
+  .btn.compact { border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); }
+
+  .chip { border-radius: var(--radius-pill); padding: var(--space-2) var(--space-3); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .chip.unselected { background: var(--white); border: 1px solid var(--paper-400); color: var(--ink-500); }
+  .chip.selected { background: var(--ink-900); border: 1px solid var(--ink-900); color: var(--paper-100); font-weight: 600; }
+  .chip.add { background: transparent; border: 1.5px dashed var(--paper-500); color: var(--ink-300); font-weight: 600; }
+  .chip .remove { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; }
+
+  .card { width: 260px; display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-sm); border: 1px solid var(--paper-300); background: var(--white); text-decoration: none; }
+  .card:hover { border-color: var(--clay-500); }
+  .card .thumb { aspect-ratio: 16/9; background: var(--paper-200); position: relative; }
+  .card .source-tag { position: absolute; left: 8px; bottom: 8px; border-radius: var(--radius-pill); background: rgba(27,24,18,0.7); color: var(--white); font-size: 11px; font-weight: 600; padding: 2px 8px; }
+  .card .body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); flex: 1; }
+  .card .title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--ink-900); line-height: 1.3; }
+  .card .desc { margin: 0; font-size: 12px; color: var(--ink-100); }
+  .card .meta { margin-top: auto; display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--ink-100); }
+  .card .category { align-self: flex-start; color: var(--clay-500); text-transform: uppercase; letter-spacing: 0.05em; font-size: 12px; font-weight: 600; }
+
+  .note {
+    margin-top: 64px;
+    padding: var(--space-5);
+    background: var(--paper-50);
+    border: 1px solid var(--paper-300);
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    color: var(--ink-300);
+  }
+  .note b { color: var(--ink-900); }
+
+  footer {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 24px var(--space-6) 48px;
+    font-size: 12px;
+    color: var(--ink-100);
+  }
+
+  @media (max-width: 640px) {
+    .cover { flex-direction: column; align-items: flex-start; padding: 40px 20px 32px; }
+    .cover-blocks { width: 100%; max-width: 100%; height: 160px; }
+    main { padding: 0 20px 64px; }
+    .type-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .type-meta { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-text">
+    <h1 class="cover-name">NewsDesk</h1>
+    <p class="cover-tagline">Editorial, calm, a warm serif accent — the design system behind a personalized news feed.</p>
+  </div>
+  <div class="cover-blocks">
+    <div class="rect blk-a"></div>
+    <div class="rect blk-b"></div>
+    <div class="rect blk-c"></div>
+    <div class="rect blk-d"></div>
+    <div class="rule r1"></div>
+    <div class="rule r2"></div>
+    <div class="rule r3"></div>
+  </div>
+</div>
+
+<main>
+
+  <section class="prose">
+    <h2>Voice</h2>
+    <p class="section-intro">Calm and editorial, not flashy. A warm cream paper ground, hairline borders instead of shadows, a serif display face for headlines paired with a clean grotesque for everything functional. The one accent color (clay) is used sparingly — for the italic half of the wordmark, category labels, and active/selected states — so it keeps its signal value.</p>
+  </section>
+
+  <section>
+    <h2>Color</h2>
+    <p class="section-intro">Pulled directly from the app's tokens (<code>src/index.css</code>). <strong>ink-900</strong> is the only primary text color; weight and the serif face carry the rest of the hierarchy. <strong>clay-500</strong> is reserved for exactly four things — the wordmark's italic half, category labels, selected/active states, and the card hover border — so a new use of it should be checked against those first.</p>
+    <div class="color-grid">
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-50)"></div><div class="swatch-body"><p class="swatch-name">paper-50</p><p class="swatch-hex">#fbf9f4</p><p class="swatch-usage">Rare highlight background, lightest tint.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-100)"></div><div class="swatch-body"><p class="swatch-name">paper-100</p><p class="swatch-hex">#f7f4ee</p><p class="swatch-usage">App background — body, sticky header.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-200)"></div><div class="swatch-body"><p class="swatch-name">paper-200</p><p class="swatch-hex">#ede6d8</p><p class="swatch-usage">Muted fill — thumbnail placeholder.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-300)"></div><div class="swatch-body"><p class="swatch-name">paper-300</p><p class="swatch-hex">#e4ddcf</p><p class="swatch-usage">Primary hairline border — cards, header, panels.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-400)"></div><div class="swatch-body"><p class="swatch-name">paper-400</p><p class="swatch-hex">#dcd4c2</p><p class="swatch-usage">Stronger border — inputs, unselected chips, toggle track.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-500)"></div><div class="swatch-body"><p class="swatch-name">paper-500</p><p class="swatch-hex">#c7bea9</p><p class="swatch-usage">Dashed border for an "add" affordance.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-100)"></div><div class="swatch-body"><p class="swatch-name">ink-100</p><p class="swatch-hex">#8a806e</p><p class="swatch-usage">Secondary / muted text — meta, legends, placeholders.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-300)"></div><div class="swatch-body"><p class="swatch-name">ink-300</p><p class="swatch-hex">#5c5646</p><p class="swatch-usage">Tertiary text, used sparingly.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-500)"></div><div class="swatch-body"><p class="swatch-name">ink-500</p><p class="swatch-hex">#4a4437</p><p class="swatch-usage">Unselected chip label text.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-900)"></div><div class="swatch-body"><p class="swatch-name">ink-900</p><p class="swatch-hex" style="color:#8a806e">#1b1812</p><p class="swatch-usage">Primary text and ink; selected-chip / button fill.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--clay-400)"></div><div class="swatch-body"><p class="swatch-name">clay-400</p><p class="swatch-hex">#d97a63</p><p class="swatch-usage">Accent on dark surfaces (dark-mode category label).</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--clay-500)"></div><div class="swatch-body"><p class="swatch-name">clay-500</p><p class="swatch-hex" style="color:#f3d9d0">#c1503a</p><p class="swatch-usage">Brand accent — wordmark, category labels, active states.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--clay-600)"></div><div class="swatch-body"><p class="swatch-name">clay-600</p><p class="swatch-hex" style="color:#f3d9d0">#a23f2c</p><p class="swatch-usage">Accent pressed / hover refinement.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--white); border-bottom:1px solid var(--paper-300)"></div><div class="swatch-body"><p class="swatch-name">white</p><p class="swatch-hex">#ffffff</p><p class="swatch-usage">Card and panel surface on the light background.</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--dark-bg)"></div><div class="swatch-body"><p class="swatch-name">dark-bg</p><p class="swatch-hex" style="color:#8a806e">#16140f</p><p class="swatch-usage">Dark-mode page background (pairs with paper-100).</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--dark-surface)"></div><div class="swatch-body"><p class="swatch-name">dark-surface</p><p class="swatch-hex" style="color:#8a806e">#1e1b15</p><p class="swatch-usage">Dark-mode card/panel surface (pairs with white).</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--dark-surface-muted)"></div><div class="swatch-body"><p class="swatch-name">dark-surface-muted</p><p class="swatch-hex" style="color:#8a806e">#29251d</p><p class="swatch-usage">Dark-mode muted fill (pairs with paper-200).</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--dark-border)"></div><div class="swatch-body"><p class="swatch-name">dark-border</p><p class="swatch-hex" style="color:#8a806e">#332e24</p><p class="swatch-usage">Dark-mode border (pairs with paper-300/400).</p></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--dark-text); border-bottom:1px solid var(--paper-300)"></div><div class="swatch-body"><p class="swatch-name">dark-text</p><p class="swatch-hex">#f3efe6</p><p class="swatch-usage">Dark-mode primary text (pairs with ink-900).</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Typography</h2>
+    <p class="section-intro">Fraunces (serif) is reserved for the wordmark and headings — anything a reader scans as a title. Public Sans carries every functional string: labels, buttons, chip text, meta.</p>
+    <div>
+      <div class="type-row">
+        <div class="type-meta"><b>wordmark-bold</b>Fraunces · 20/28 · 700</div>
+        <div class="type-sample t-wordmark-bold">News</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>wordmark-italic</b>Fraunces · 20/28 · 500 italic</div>
+        <div class="type-sample t-wordmark-italic">Desk</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>heading-lg</b>Fraunces · 20/28 · 600</div>
+        <div class="type-sample t-heading-lg">Personalize your feed</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>heading-md</b>Fraunces · 18/28 · 600</div>
+        <div class="type-sample t-heading-md">A quiet breakthrough in battery recycling</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>body-md</b>Public Sans · 14/20 · 500</div>
+        <div class="type-sample t-body-md">Bring articles matching my preferences to the top</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>body-sm</b>Public Sans · 12/16 · 400</div>
+        <div class="type-sample t-body-sm">Amara Osei · Sep 18, 2026</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>button-label</b>Public Sans · 12/16 · 600</div>
+        <div class="type-sample t-button-label">Personalize feed</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta"><b>label-upper</b>Public Sans · 12/16 · 700 · 0.07em</div>
+        <div class="type-sample t-label-upper">Preferred categories</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Spacing</h2>
+    <p class="section-intro">A 4px-based scale. Chips sit 8px apart; card padding and the rhythm between stacked fieldsets is 16px; a popover or sheet gets the most room at 20px.</p>
+    <div class="scale-list">
+      <div class="scale-row"><span class="scale-label">space-1</span><span class="scale-value">4px</span><div class="scale-bar" style="width:4px"></div><span class="scale-usage">Toggle thumb inset, icon-to-label gap.</span></div>
+      <div class="scale-row"><span class="scale-label">space-2</span><span class="scale-value">8px</span><div class="scale-bar" style="width:8px"></div><span class="scale-usage">Chip gaps, filter-row gaps.</span></div>
+      <div class="scale-row"><span class="scale-label">space-3</span><span class="scale-value">12px</span><div class="scale-bar" style="width:12px"></div><span class="scale-usage">Control vertical padding (buttons, inputs).</span></div>
+      <div class="scale-row"><span class="scale-label">space-4</span><span class="scale-value">16px</span><div class="scale-bar" style="width:16px"></div><span class="scale-usage">Card padding; rhythm between fieldsets.</span></div>
+      <div class="scale-row"><span class="scale-label">space-5</span><span class="scale-value">20px</span><div class="scale-bar" style="width:20px"></div><span class="scale-usage">Popover and bottom-sheet padding.</span></div>
+      <div class="scale-row"><span class="scale-label">space-6</span><span class="scale-value">24px</span><div class="scale-bar" style="width:24px"></div><span class="scale-usage">Desktop section padding — masthead, gutters.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Radius</h2>
+    <p class="section-intro">Radius communicates hierarchy: small for content (almost square, editorial), pill exclusively for interactive controls, and the largest steps reserved for popovers and sheets so a floating panel always reads as "above" the grid.</p>
+    <div class="scale-list">
+      <div class="scale-row"><span class="scale-label">radius-sm</span><span class="scale-value">4px</span><div class="radius-box" style="border-radius:4px"></div><span class="scale-usage">Article cards, thumbnail images.</span></div>
+      <div class="scale-row"><span class="scale-label">radius-md</span><span class="scale-value">6px</span><div class="radius-box" style="border-radius:6px"></div><span class="scale-usage">Text inputs, small controls.</span></div>
+      <div class="scale-row"><span class="scale-label">radius-lg</span><span class="scale-value">12px</span><div class="radius-box" style="border-radius:12px"></div><span class="scale-usage">Dropdown / add-filter popovers.</span></div>
+      <div class="scale-row"><span class="scale-label">radius-xl</span><span class="scale-value">16px</span><div class="radius-box" style="border-radius:16px"></div><span class="scale-usage">Personalize popover (desktop) and bottom sheet (mobile).</span></div>
+      <div class="scale-row"><span class="scale-label">radius-pill</span><span class="scale-value">999px</span><div class="radius-box" style="border-radius:999px"></div><span class="scale-usage">Buttons, chips, toggle track/thumb.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Components</h2>
+    <p class="section-intro">Three recurring pieces cover the current UI.</p>
+
+    <div class="comp-block">
+      <h3 class="comp-title">Button</h3>
+      <p class="comp-desc">A solid ink-900 pill for the one primary action in a context. The header's "Personalize feed" trigger uses the pill; the inline "Add" confirmation currently uses <code>radius-md</code> instead — a real inconsistency in the app, shown here as-is.</p>
+      <div class="comp-stage">
+        <figure><button class="btn primary t-button-label">Personalize feed</button><figcaption>Primary pill — header trigger</figcaption></figure>
+        <figure><button class="btn primary hover t-button-label">Personalize feed</button><figcaption>Hover (opacity 0.85)</figcaption></figure>
+        <figure><button class="btn compact t-button-label">Add</button><figcaption>Compact — inline confirm (rounded-md)</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="comp-block">
+      <h3 class="comp-title">Chip</h3>
+      <p class="comp-desc">The one interactive-choice shape. Drives preference toggles, applied filter chips (with a remove affordance), and the "+ Add" trigger that opens a picker.</p>
+      <div class="comp-stage">
+        <figure><span class="chip unselected t-body-md">The Guardian</span><figcaption>Unselected — preference option</figcaption></figure>
+        <figure><span class="chip selected t-body-md">The Guardian</span><figcaption>Selected — preference chosen</figcaption></figure>
+        <figure><span class="chip selected t-body-md">Technology<span class="remove">&times;</span></span><figcaption>Applied — filter chip with remove</figcaption></figure>
+        <figure><span class="chip add">+ Add filter</span><figcaption>Add — opens a picker</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="comp-block">
+      <h3 class="comp-title">Card</h3>
+      <p class="comp-desc">The article card every result renders in — a plain link styled as a bordered rectangle, no shadow. Hover swaps the border to clay-500.</p>
+      <div class="comp-stage">
+        <a class="card" href="#" onclick="return false;">
+          <div class="thumb"><span class="source-tag">The Guardian</span></div>
+          <div class="body">
+            <h3 class="title">A quiet breakthrough in battery recycling could cut mining demand</h3>
+            <p class="desc">Engineers say the new process recovers over 90% of lithium and cobalt from spent cells at industrial scale.</p>
+            <div class="meta"><span>Amara Osei</span><span>Sep 18, 2026</span></div>
+            <span class="category">Science</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>On dark mode.</b> This system documents one palette, not a light/dark theme pair — the app's dark mode isn't a literal remap of these tokens, it swaps to a separate <code>dark-*</code> set via Tailwind's <code>dark:</code> variant, token by token (see each color's usage note above for its pairing).
+  </div>
+
+</main>
+
+<footer>NewsDesk design system · exported from the live system at <a href="https://claude.ai/artifact/93PXzWkqacsNpXKXAR4wEB">claude.ai/artifact/93PXzWkqacsNpXKXAR4wEB</a></footer>
+
+</body>
+</html>

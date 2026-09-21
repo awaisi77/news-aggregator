@@ -1,7 +1,7 @@
-import type { Article, NewsProvider, SearchFilters } from '../../types';
-import { API_CONFIG, isConfigured } from '../config';
-import { fetchJson } from '../httpClient';
-import { normalizeCategory } from '../../utils/normalizeCategory';
+import type { Article, NewsProvider, SearchFilters } from "../../types";
+import { isNewsApiConfigured } from "../config";
+import { fetchJson } from "../httpClient";
+import { normalizeCategory } from "../../utils/normalizeCategory";
 
 // --- NewsAPI.org response shape (only the fields we use) ---
 interface NewsApiArticle {
@@ -15,18 +15,20 @@ interface NewsApiArticle {
 }
 
 interface NewsApiResponse {
-  status: 'ok' | 'error';
+  status: "ok" | "error";
   message?: string;
   articles?: NewsApiArticle[];
 }
 
-const BASE_URL = 'https://newsapi.org/v2/everything';
+// Same-origin proxy (Vercel function, Vite dev proxy, or nginx). NewsAPI's
+// Developer plan rejects browser requests from any origin other than localhost.
+const BASE_URL = "/api/news";
 
 function toArticle(raw: NewsApiArticle, category: string | null): Article {
   return {
     id: raw.url,
-    source: 'newsapi',
-    sourceLabel: raw.source?.name ?? 'NewsAPI',
+    source: "newsapi",
+    sourceLabel: raw.source?.name ?? "NewsAPI",
     title: raw.title,
     description: raw.description,
     url: raw.url,
@@ -41,19 +43,20 @@ function toArticle(raw: NewsApiArticle, category: string | null): Article {
 }
 
 export function createNewsApiProvider(): NewsProvider {
-  const apiKey = API_CONFIG.newsApiKey;
-
   return {
-    meta: { id: 'newsapi', label: 'NewsAPI', isConfigured: isConfigured(apiKey) },
+    meta: {
+      id: "newsapi",
+      label: "NewsAPI",
+      isConfigured: isNewsApiConfigured(),
+    },
 
     async fetchArticles(filters: SearchFilters): Promise<Article[]> {
-      if (!isConfigured(apiKey)) return [];
+      if (!isNewsApiConfigured()) return [];
 
       const params = new URLSearchParams({
-        apiKey,
-        language: 'en',
-        sortBy: 'publishedAt',
-        pageSize: '30',
+        language: "en",
+        sortBy: "publishedAt",
+        pageSize: "30",
       });
 
       // NewsAPI's /everything has no real category classification (see
@@ -65,19 +68,21 @@ export function createNewsApiProvider(): NewsProvider {
       // mention the word in passing; qInTitle is a much tighter signal
       // that the article is actually about that topic.
       const keyword = filters.keyword.trim();
-      if (keyword) params.set('q', keyword);
-      if (filters.category) params.set('qInTitle', filters.category);
+      if (keyword) params.set("q", keyword);
+      if (filters.category) params.set("qInTitle", filters.category);
       // /everything requires at least one of q/qInTitle/sources/domains -
       // fall back to a broad query so browsing with no keyword or category
       // still returns results.
-      if (!keyword && !filters.category) params.set('q', 'news');
+      if (!keyword && !filters.category) params.set("q", "news");
 
-      if (filters.dateFrom) params.set('from', filters.dateFrom);
-      if (filters.dateTo) params.set('to', filters.dateTo);
+      if (filters.dateFrom) params.set("from", filters.dateFrom);
+      if (filters.dateTo) params.set("to", filters.dateTo);
 
-      const data = await fetchJson<NewsApiResponse>(`${BASE_URL}?${params.toString()}`);
-      if (data.status !== 'ok') {
-        throw new Error(data.message ?? 'NewsAPI request failed');
+      const data = await fetchJson<NewsApiResponse>(
+        `${BASE_URL}?${params.toString()}`,
+      );
+      if (data.status !== "ok") {
+        throw new Error(data.message ?? "NewsAPI request failed");
       }
       return (data.articles ?? []).map((a) => toArticle(a, filters.category));
     },

@@ -3,11 +3,17 @@
 // it gives us a single spot to decide "is this source configured".
 
 export const API_CONFIG = {
-  newsApiKey: import.meta.env.VITE_NEWSAPI_KEY ?? '',
-  guardianApiKey: import.meta.env.VITE_GUARDIAN_API_KEY ?? '',
-  nytApiKey: import.meta.env.VITE_NYTIMES_API_KEY ?? '',
+  newsApiKey: import.meta.env.VITE_NEWSAPI_KEY ?? "",
+  newsApiEnabled: import.meta.env.VITE_NEWSAPI_ENABLED === "true",
+  guardianApiKey: import.meta.env.VITE_GUARDIAN_API_KEY ?? "",
+  nytApiKey: import.meta.env.VITE_NYTIMES_API_KEY ?? "",
 } as const;
 
 export function isConfigured(key: string): boolean {
   return key.trim().length > 0;
+}
+
+/** NewsAPI is proxied server-side, so the UI can be enabled without shipping the secret. */
+export function isNewsApiConfigured(): boolean {
+  return isConfigured(API_CONFIG.newsApiKey) || API_CONFIG.newsApiEnabled;
 }

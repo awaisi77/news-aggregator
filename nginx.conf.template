@@ -7,6 +7,15 @@ server {
     gzip on;
     gzip_types text/css application/javascript application/json image/svg+xml;
 
+    # Same-origin NewsAPI proxy (Developer plan blocks browser CORS off localhost).
+    location /api/news {
+        resolver 1.1.1.1 ipv6=off valid=300s;
+        proxy_http_version 1.1;
+        proxy_ssl_server_name on;
+        proxy_set_header Host newsapi.org;
+        proxy_pass https://newsapi.org/v2/everything?apiKey=${NEWSAPI_KEY}&$args;
+    }
+
     # Single-page app: any unknown path falls back to index.html.
     location / {
         try_files $uri $uri/ /index.html;

@@ -114,34 +114,56 @@ Get free keys here and put them in `.env` (see `.env.example`):
 - NYTimes: <https://developer.nytimes.com/get-started> (create an app with
   the "Article Search API" enabled)
 
-Vite only picks up variables prefixed `VITE_`, and it inlines them at
-**build** time - restart `npm run dev` (or rebuild) after editing `.env`.
+Vite inlines variables prefixed `VITE_` at **build** time. NewsAPI is
+different: the Developer plan rejects browser requests except from
+localhost, so the app calls same-origin `/api/news` and the key stays in
+`NEWSAPI_KEY` on the server (Vite proxy locally, Vercel function in
+production, nginx in Docker). Set `VITE_NEWSAPI_ENABLED=true` so the UI
+still turns that source on without putting the secret in the JS bundle.
+
+Restart `npm run dev` (or rebuild) after editing `.env`.
+
+## Deploying on Vercel
+
+1. Import the GitHub repo (framework: Vite, output `dist`).
+2. Set environment variables for Production, Preview, and Development:
+
+| Name | Value |
+| --- | --- |
+| `NEWSAPI_KEY` | your NewsAPI key (server only — do **not** prefix with `VITE_`) |
+| `VITE_NEWSAPI_ENABLED` | `true` |
+| `VITE_GUARDIAN_API_KEY` | optional |
+| `VITE_NYTIMES_API_KEY` | optional |
+
+Do not set `VITE_NEWSAPI_KEY` on Vercel. Vite would inline it into the
+client bundle, which both leaks the key and is unnecessary now that
+`/api/news` attaches it on the server.
 
 ## Running with Docker
 
 ```bash
 # option A: docker compose (reads .env automatically)
-cp .env.example .env   # fill in at least one key
+cp .env.example .env   # fill in at least one key; for NewsAPI set NEWSAPI_KEY and VITE_NEWSAPI_ENABLED=true
 docker compose up --build
 ```
 
 ```bash
 # option B: plain docker
 docker build \
-  --build-arg VITE_NEWSAPI_KEY=your_key_here \
+  --build-arg VITE_NEWSAPI_ENABLED=true \
   --build-arg VITE_GUARDIAN_API_KEY=your_key_here \
   --build-arg VITE_NYTIMES_API_KEY=your_key_here \
   -t news-aggregator .
 
-docker run -p 8080:80 news-aggregator
+docker run -p 8080:80 -e NEWSAPI_KEY=your_key_here news-aggregator
 ```
 
 Either way, open <http://localhost:8080>.
 
 The image is a multi-stage build: a Node 20 stage runs `npm ci && npm run
 build`, and the final image is `nginx:alpine` serving the static `dist/`
-output, so the shipped container has no Node/npm in it, just static files
-behind nginx.
+output. nginx also reverse-proxies `/api/news` to NewsAPI using
+`NEWSAPI_KEY` at container start, so that key is not baked into the JS.
 
 ## Scripts
 
