@@ -1,0 +1,12 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_NEWSAPI_KEY: ${VITE_NEWSAPI_KEY:-}
+        VITE_GUARDIAN_API_KEY: ${VITE_GUARDIAN_API_KEY:-}
+        VITE_NYTIMES_API_KEY: ${VITE_NYTIMES_API_KEY:-}
+    ports:
+      - '8080:80'
+    restart: unless-stopped
